@@ -57,41 +57,27 @@ class DogDetailView(DetailView):
         context_data['title'] = f'Подробная информация\n{dog_obj}'
         return context_data
 
-@login_required(login_url='users:user_login')
-def dog_detail_view(request, pk):
-    # dog_object = Dog.objects.get(pk=pk)
-    dog_object = get_object_or_404(Dog, pk=pk)
-    context = {
-        'object': dog_object,
-        'title': f'Вы выбрали: {dog_object}'
-        # 'title': f'Вы выбрали: {dog_object.name}. Порода: {dog_object.breed_name}',
-    }
-    return render(request, 'dogs/detail.html', context)
+class DogUpdateView(UpdateView):
+    model = Dog
+    form_class = DogForm
+    template_name = 'dogs/create_update.html'
 
-@login_required(login_url='users:user_login')
-def dog_update_view(request, pk):
-    dog_object = get_object_or_404(Dog, pk=pk)
-    if request.method == 'POST':
-        form = DogForm(request.POST, request.FILES, instance=dog_object)
-        if form.is_valid():
-            dog_object = form.save()
-            dog_object.save()
-            return HttpResponseRedirect(reverse('dogs:dog_detail', args={pk: pk}))
-    context = {
-        'title': 'Изменить собаку',
-        'object': dog_object,
-        'form': DogForm(instance=dog_object),
-    }
-    return render(request, 'dogs/create_update.html', context)
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data()
+        dog_obj = self.get_object()
+        context_data['title'] = f'Изменить\n{dog_obj}'
+        return context_data
 
-@login_required(login_url='users:user_login')
-def dog_delete_view(request, pk):
-    dog_object = get_object_or_404(Dog, pk=pk)
-    if request.method == 'POST':
-        dog_object.delete()
-        return HttpResponseRedirect(reverse('dogs:dogs_list'))
-    context = {
-        'title': 'Удалить собаку',
-        'object': dog_object
-    }
-    return render(request, 'dogs/delete.html', context)
+    def get_success_url(self):
+        return reverse('dogs:dog_detail', args=[self.kwargs.get('pk')])
+
+class DogDeleteView(DeleteView):
+    model = Dog
+    template_name = 'dogs/delete.html'
+    success_url = reverse_lazy('dogs:dogs_list')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data()
+        dog_obj = self.get_object()
+        context_data['title'] = f'Удалить\n{dog_obj}'
+        return context_data
