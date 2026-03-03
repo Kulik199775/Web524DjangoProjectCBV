@@ -14,8 +14,7 @@ class StyleFormMixin:
 class UserForm(StyleFormMixin,forms.ModelForm):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'phone')
-        # exclude = ('is_active',)
+        fields = ('email', 'first_name', 'last_name', 'phone', 'avatar')
 
 class UserRegisterForm(StyleFormMixin, UserCreationForm):
 
