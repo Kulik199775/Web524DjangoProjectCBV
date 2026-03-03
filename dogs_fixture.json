@@ -58,7 +58,7 @@
         "breed": 1,
         "photo": "dogs/nemec_ovchar.jpeg",
         "birth_date": "2025-03-06",
-        "owner": 1
+        "owner": 2
     }
 },
 {
@@ -69,7 +69,7 @@
         "breed": 5,
         "photo": "dogs/Dzhek-1.jpg",
         "birth_date": "2024-06-06",
-        "owner": 4
+        "owner": 3
     }
 },
 {
@@ -80,7 +80,7 @@
         "breed": 2,
         "photo": "dogs/Collie.jpg",
         "birth_date": "2025-02-03",
-        "owner": 6
+        "owner": 1
     }
 },
 {
@@ -91,7 +91,7 @@
         "breed": 4,
         "photo": "dogs/chixuaxua.jpg",
         "birth_date": "2023-03-03",
-        "owner": 7
+        "owner": 2
     }
 },
 {
@@ -102,7 +102,7 @@
         "breed": 3,
         "photo": "dogs/king_spaniel.jpeg",
         "birth_date": "2024-12-13",
-        "owner": 7
+        "owner": 3
     }
 },
 {
@@ -113,7 +113,7 @@
         "breed": 5,
         "photo": "dogs/Dzhek-1_irojY7f.jpg",
         "birth_date": null,
-        "owner": 12
+        "owner": 1
     }
 }
 ]

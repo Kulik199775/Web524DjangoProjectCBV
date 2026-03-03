@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="row">
-    {% for object in objects_list %}
+    {% for object in object_list %}
         {% include 'dogs/includes/inc_breed.html' with object=object %}
     {% endfor %}
 </div>
