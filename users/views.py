@@ -60,23 +60,13 @@ class UserUpdateView(UpdateView):
         context_data['title'] = f'Изменить профиль: {user_obj}'
         return context_data
 
-
-@login_required(login_url='users:user_login')
-def user_change_password_view(request):
-    user_object = request.user
-    form = UserChangePasswordForm(user_object, request.POST)
-    if request.method == 'POST':
-        if form.is_valid():
-            user_object = form.save()
-            update_session_auth_hash(request, user_object)
-            messages.success(request, 'Пароль был успешно изменён!')
-            return HttpResponseRedirect(reverse('users:user_profile'))
-        messages.error(request, 'Не удалось изменить пароль!')
-    context = {
-        'form': form,
-        'title':  f'Изменить пароль {user_object}',
+class UserPasswordChangeView(PasswordChangeView):
+    form_class = UserChangePasswordForm
+    template_name = 'users/user_change_password.html'
+    success_url = reverse_lazy('users:user_profile')
+    extra_context = {
+        'title': 'Изменить пароль'
     }
-    return render(request, 'users/user_change_password.html', context=context)
 
 
 def user_logout_view(request):
