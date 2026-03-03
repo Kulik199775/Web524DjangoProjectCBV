@@ -23,46 +23,32 @@ class UserRegisterView(CreateView):
         'title': 'Создать аккаунт',
     }
 
-# def user_register_view(request):
+class UserLoginView(LoginView):
+    template_name = 'users/user_login.html'
+    form_class = UserLoginForm
+    extra_context = {
+        'title': 'Авторизация'
+    }
+
+# def user_login_view(request):
 #     if request.method == 'POST':
-#         form = UserRegisterForm(request.POST)
+#         form = UserLoginForm(request.POST)
 #         if form.is_valid():
-#             new_user = form.save()
-#             # print(new_user)
-#             # print(form.cleaned_data['password'])
-#             new_user.set_password(form.cleaned_data['password']) #хэшируем пароль
-#             new_user.save()
-#             send_register_email(new_user.email)
-#             return HttpResponseRedirect(reverse('users:user_login'))
+#             cd = form.cleaned_data
+#             user = authenticate(email=cd['email'], password=cd['password'])
+#             if user is not None:
+#                 if user.is_active:
+#                     login(request, user)
+#                     return HttpResponseRedirect(reverse('dogs:index'))
+#                 return HttpResponse('Аккаунт не активен!')
+#             return HttpResponse('Нет такого пользователя')
 #     else:
-#         form = UserRegisterForm()
-#
+#         form = UserLoginForm()
 #     context = {
-#         'title': 'Создать аккаунт',
+#         'title': 'Авторизация',
 #         'form': form
 #     }
-#     return render(request, 'users/user_register_update.html', context=context)
-
-
-def user_login_view(request):
-    if request.method == 'POST':
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(email=cd['email'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect(reverse('dogs:index'))
-                return HttpResponse('Аккаунт не активен!')
-            return HttpResponse('Нет такого пользователя')
-    else:
-        form = UserLoginForm()
-    context = {
-        'title': 'Авторизация',
-        'form': form
-    }
-    return render(request, 'users/user_login.html', context=context)
+#     return render(request, 'users/user_login.html', context=context)
 
 #если в БД нет значения по умолчанию
 # def user_profile_view(request):
