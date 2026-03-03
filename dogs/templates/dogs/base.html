@@ -31,8 +31,11 @@
                         <li><a href="{% url 'dogs:dog_create' %}" class="text-white">Добавить собаку</a></li>
                         {% if user.is_authenticated %}
                             <li><a href="{% url 'users:user_profile' %}" class="text-white">Профиль</a></li>
-                            <li><a href="{% url 'users:user_logout' %}" class="text-white">Выход</a></li>
                              <span class="text-white">{{ user.email }}</span>
+                            <form method="post" action="{% url 'users:user_logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Выход</button>
+                            </form>
                         {% else %}
                             <li><a href="{% url 'users:user_login' %}" class="text-white">Вход</a></li>
                             <li><a href="{% url 'users:user_register' %}" class="text-white">Регистрация</a></li>

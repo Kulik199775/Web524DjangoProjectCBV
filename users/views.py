@@ -68,10 +68,12 @@ class UserPasswordChangeView(PasswordChangeView):
         'title': 'Изменить пароль'
     }
 
+class UserLogoutView(LogoutView):
+    pass
 
-def user_logout_view(request):
-    logout(request)
-    return redirect('dogs:index')
+# def user_logout_view(request):
+#     logout(request)
+#     return redirect('dogs:index')
 
 @login_required(login_url='users:user_login')
 def user_generate_new_password_view(request):
