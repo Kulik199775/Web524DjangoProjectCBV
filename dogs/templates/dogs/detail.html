@@ -16,8 +16,11 @@
             <span class="text-muted">Телеграм: {{ object.owner.telegram|default:"Не указано" }}</span><br>
         </div>
         <div class="card-footer">
+{#            {% if user == object.owner or user.is_staff %}#}
+            {% if user == object.owner %}
             <a class="btn btn-link" href="{% url 'dogs:dog_update' object.pk %}">Изменить</a>
             <a class="btn btn-link" href="{% url 'dogs:dog_delete' object.pk %}">Удалить</a>
+            {% endif %}
         </div>
     </div>
 </div>
