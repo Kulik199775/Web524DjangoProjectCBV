@@ -4,6 +4,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 
 from dogs.forms import DogForm
 from dogs.models import Breed, Dog
@@ -65,7 +66,7 @@ class DogDetailView(DetailView):
         context_data['title'] = f'Подробная информация\n{dog_obj}'
         return context_data
 
-class DogUpdateView(UpdateView):
+class DogUpdateView(LoginRequiredMixin, UpdateView):
     model = Dog
     form_class = DogForm
     template_name = 'dogs/create_update.html'
@@ -76,10 +77,19 @@ class DogUpdateView(UpdateView):
         context_data['title'] = f'Изменить\n{dog_obj}'
         return context_data
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        # Может редактировать как владелец, так и администрация сайта
+        # if self.object.owner != self.request.user and not self.request.user.is_staff:
+        # Может редактировать только владелец
+        if self.object.owner != self.request.user and not self.request.user.is_staff:
+            raise Http404
+        return self.object
+
     def get_success_url(self):
         return reverse('dogs:dog_detail', args=[self.kwargs.get('pk')])
 
-class DogDeleteView(DeleteView):
+class DogDeleteView(LoginRequiredMixin, DeleteView):
     model = Dog
     template_name = 'dogs/delete.html'
     success_url = reverse_lazy('dogs:dogs_list')
