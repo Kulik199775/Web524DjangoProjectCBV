@@ -1,0 +1,28 @@
+{% load my_tags %}
+ <div class="col-4">
+     <div class="card mb-4 box-shadow">
+         <div class="card-header">
+             <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
+         </div>
+         <img class="card-img-top"
+              src="{{ object.photo|dogs_media }}" width="300" height="320"
+              alt="Card image cap">
+         <div class="card-body">
+             <h5 class="card-title pricing-card-title">Порода: {{ object.breed }}</h5>
+             <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                 <li>Дата рождения: {{ object.birth_date|default:'не известна' }}</li>
+             </ul>
+             <a class="btn btn-lg btn-block btn-outline-info"
+                href="{% url 'dogs:dog_detail' object.pk %}">Подробнее</a>
+{#             {% if user.is_authenticated and object.owner == user or user.is_staff %}#}
+             {% if user.is_authenticated and object.owner == user %}
+                 <a class="btn btn-lg btn-block btn-outline-warning"
+                    href="{% url 'dogs:dog_update' object.pk %}">Изменить</a>
+             {% endif %}
+             {% if user.is_authenticated and user.role == 'admin' %}
+                 <a class="btn btn-lg btn-block btn-outline-danger"
+                    href="{% url 'dogs:dog_delete' object.pk %}">Удалить</a>
+             {% endif %}
+         </div>
+     </div>
+ </div>
