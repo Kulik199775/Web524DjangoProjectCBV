@@ -9,7 +9,7 @@ class DogForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Dog
         # fields = '__all__'
-        exclude = ('owner', 'is_active',)
+        exclude = ('owner', 'is_active', 'views',)
 
     def clean_birth_date(self):
         cleaned_data = self.cleaned_data['birth_date']
@@ -22,7 +22,7 @@ class DogForm(StyleFormMixin, forms.ModelForm):
 class DogCreateForm(DogForm):
     class Meta:
         model = Dog
-        exclude = ('owner', 'is_active',)
+        exclude = ('owner', 'is_active', 'views',)
 
 class DogParentForm(StyleFormMixin, forms.ModelForm):
     class Meta:
