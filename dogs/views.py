@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -51,6 +51,18 @@ class DogsListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(is_active=True)
+        return queryset
+
+class DogsDeactivatedListView(LoginRequiredMixin, ListView):
+    model = Dog
+    extra_context = {
+        'title': 'Питомник - неактивные собаки'
+    }
+    template_name = 'dogs/dogs.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(is_active=False)
         return queryset
 
 
@@ -131,3 +143,12 @@ class DogDeleteView(LoginRequiredMixin, DeleteView):
         dog_obj = self.get_object()
         context_data['title'] = f'Удалить\n{dog_obj}'
         return context_data
+
+def dog_toggle_activity(request, pk):
+    dog_object = get_object_or_404(Dog, pk=pk)
+    if dog_object.is_active:
+        dog_object.is_active = False
+    else:
+        dog_object.is_active = True
+    dog_object.save()
+    return redirect(reverse('dogs:dog_list'))
