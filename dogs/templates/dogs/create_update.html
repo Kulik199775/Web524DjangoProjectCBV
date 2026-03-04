@@ -16,6 +16,7 @@
                  src="{{ object.photo|dogs_media }}" width="300" height="400"
                  alt="Card image cap">
              {% endif %}
+            </div>
             <div class="card-body">
                 {% csrf_token %}
                 {{ form.as_p }}
@@ -26,6 +27,19 @@
                     Добавить
                     {% endif %}
                 </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                {{ formset.management_form }}
+                {% for form in formset.forms %}
+                {{ form.as_p }}
+                {% if not forloop.last %}
+                <hr>
+                {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>

@@ -5,9 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
+from django.forms import inlineformset_factory
 
-from dogs.forms import DogForm
-from dogs.models import Breed, Dog
+from dogs.forms import DogForm, DogParentForm
+from dogs.models import Breed, Dog, DogParent
 from users.services import send_dog_creation
 
 def index(request):
@@ -73,9 +74,24 @@ class DogUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data()
-        dog_obj = self.get_object()
-        context_data['title'] = f'Изменить\n{dog_obj}'
+        DogParentFormset = inlineformset_factory(Dog, DogParent, form=DogParentForm, extra=1)
+        if self.request.method == 'POST':
+            formset = DogParentFormset(self.request.POST, instance=self.object)
+        else:
+            formset = DogParentFormset(instance=self.object)
+        dog_object = self.get_object()
+        context_data['formset'] = formset
+        context_data['title'] = f'Изменить\n{dog_object}'
         return context_data
+
+    def form_valid(self, form):
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+        self.object = form.save()
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+        return super().form_valid(form)
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
