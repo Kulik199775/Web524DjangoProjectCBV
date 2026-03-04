@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from dogs.forms import DogForm
 from dogs.models import Breed, Dog
@@ -38,7 +39,7 @@ class DogsListView(ListView):
     }
     template_name = 'dogs/dogs.html'
 
-class DogCreateView(CreateView):
+class DogCreateView(LoginRequiredMixin, CreateView):
     model = Dog
     form_class = DogForm
     template_name = 'dogs/create_update.html'
@@ -46,6 +47,13 @@ class DogCreateView(CreateView):
         'title': 'Добавить собаку'
     }
     success_url = reverse_lazy('dogs:dogs_list')
+
+    def form_valid(self, form):
+        self.dog_object = form.save()
+        self.dog_object.owner = self.request.user
+        self.dog_object.save()
+        send_dog_creation(self.request.user.email, self.dog_object)
+        return super().form_valid(form)
 
 class DogDetailView(DetailView):
     model = Dog
