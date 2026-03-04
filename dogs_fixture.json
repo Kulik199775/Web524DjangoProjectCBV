@@ -48,7 +48,8 @@
         "photo": "dogs/nemec_ovchar_KvZFoGr.jpeg",
         "birth_date": "2026-02-12",
         "is_active": true,
-        "owner": 1
+        "owner": 1,
+        "views": 0
     }
 },
 {
@@ -60,7 +61,8 @@
         "photo": "dogs/nemec_ovchar.jpeg",
         "birth_date": "2025-03-06",
         "is_active": true,
-        "owner": 2
+        "owner": 2,
+        "views": 0
     }
 },
 {
@@ -72,7 +74,8 @@
         "photo": "dogs/Dzhek-1.jpg",
         "birth_date": "2024-06-06",
         "is_active": true,
-        "owner": 3
+        "owner": 3,
+        "views": 0
     }
 },
 {
@@ -84,7 +87,8 @@
         "photo": "dogs/Collie.jpg",
         "birth_date": "2025-02-03",
         "is_active": true,
-        "owner": 1
+        "owner": 1,
+        "views": 0
     }
 },
 {
@@ -96,7 +100,8 @@
         "photo": "dogs/king_spaniel.jpeg",
         "birth_date": "2024-12-13",
         "is_active": true,
-        "owner": 3
+        "owner": 3,
+        "views": 0
     }
 },
 {
@@ -108,7 +113,8 @@
         "photo": "dogs/Dzhek-1_irojY7f.jpg",
         "birth_date": null,
         "is_active": true,
-        "owner": 1
+        "owner": 1,
+        "views": 0
     }
 },
 {
@@ -119,8 +125,9 @@
         "breed": 4,
         "photo": "dogs/chixuaxua_gMdSc4F.jpg",
         "birth_date": "2023-12-12",
-        "is_active": true,
-        "owner": null
+        "is_active": false,
+        "owner": null,
+        "views": 0
     }
 },
 {
@@ -132,7 +139,8 @@
         "photo": "dogs/Collie2_IBZ4Kgg.png",
         "birth_date": "2024-12-12",
         "is_active": true,
-        "owner": 1
+        "owner": 1,
+        "views": 0
     }
 },
 {
@@ -144,7 +152,8 @@
         "photo": "dogs/leisi_R0hW6Oc.png",
         "birth_date": "2022-10-11",
         "is_active": true,
-        "owner": null
+        "owner": null,
+        "views": 0
     }
 },
 {

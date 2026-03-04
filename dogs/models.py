@@ -22,6 +22,7 @@ class Dog(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='Активность')
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Хозяин')
+    views = models.IntegerField(default=0, verbose_name='Просмотры')
 
     def __str__(self):
         return f'{self.name} ({self.breed})'
