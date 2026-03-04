@@ -47,6 +47,7 @@
         "breed": 1,
         "photo": "dogs/nemec_ovchar_KvZFoGr.jpeg",
         "birth_date": "2026-02-12",
+        "is_active": true,
         "owner": 1
     }
 },
@@ -58,6 +59,7 @@
         "breed": 1,
         "photo": "dogs/nemec_ovchar.jpeg",
         "birth_date": "2025-03-06",
+        "is_active": true,
         "owner": 2
     }
 },
@@ -69,6 +71,7 @@
         "breed": 5,
         "photo": "dogs/Dzhek-1.jpg",
         "birth_date": "2024-06-06",
+        "is_active": true,
         "owner": 3
     }
 },
@@ -80,18 +83,8 @@
         "breed": 2,
         "photo": "dogs/Collie.jpg",
         "birth_date": "2025-02-03",
+        "is_active": true,
         "owner": 1
-    }
-},
-{
-    "model": "dogs.dog",
-    "pk": 5,
-    "fields": {
-        "name": "Рен",
-        "breed": 4,
-        "photo": "dogs/chixuaxua.jpg",
-        "birth_date": "2023-03-03",
-        "owner": 2
     }
 },
 {
@@ -102,6 +95,7 @@
         "breed": 3,
         "photo": "dogs/king_spaniel.jpeg",
         "birth_date": "2024-12-13",
+        "is_active": true,
         "owner": 3
     }
 },
@@ -113,7 +107,54 @@
         "breed": 5,
         "photo": "dogs/Dzhek-1_irojY7f.jpg",
         "birth_date": null,
+        "is_active": true,
         "owner": 1
+    }
+},
+{
+    "model": "dogs.dog",
+    "pk": 9,
+    "fields": {
+        "name": "Жучка",
+        "breed": 4,
+        "photo": "dogs/chixuaxua_gMdSc4F.jpg",
+        "birth_date": "2023-12-12",
+        "is_active": true,
+        "owner": null
+    }
+},
+{
+    "model": "dogs.dog",
+    "pk": 16,
+    "fields": {
+        "name": "Почтальон",
+        "breed": 2,
+        "photo": "dogs/Collie2_IBZ4Kgg.png",
+        "birth_date": "2024-12-12",
+        "is_active": true,
+        "owner": 1
+    }
+},
+{
+    "model": "dogs.dog",
+    "pk": 22,
+    "fields": {
+        "name": "Лейси",
+        "breed": 3,
+        "photo": "dogs/leisi_R0hW6Oc.png",
+        "birth_date": "2022-10-11",
+        "is_active": true,
+        "owner": null
+    }
+},
+{
+    "model": "dogs.dogparent",
+    "pk": 1,
+    "fields": {
+        "dog": 16,
+        "name": "Бернард",
+        "breed": 2,
+        "birth_date": null
     }
 }
 ]

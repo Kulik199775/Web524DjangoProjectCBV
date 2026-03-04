@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.forms import inlineformset_factory
 
-from dogs.forms import DogForm, DogParentForm
+from dogs.forms import DogForm, DogParentForm, DogCreateForm
 from dogs.models import Breed, Dog, DogParent
 from users.services import send_dog_creation
 
@@ -50,7 +50,7 @@ class DogsListView(ListView):
 
 class DogCreateView(LoginRequiredMixin, CreateView):
     model = Dog
-    form_class = DogForm
+    form_class = DogCreateForm
     template_name = 'dogs/create_update.html'
     extra_context = {
         'title': 'Добавить собаку'
