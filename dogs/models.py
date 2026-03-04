@@ -27,6 +27,10 @@ class Dog(models.Model):
     def __str__(self):
         return f'{self.name} ({self.breed})'
 
+    def views_count(self):
+        self.views += 1
+        self.save()
+
     class Meta:
         verbose_name = 'dog'
         verbose_name_plural = 'dogs'
