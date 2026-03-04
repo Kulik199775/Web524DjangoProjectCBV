@@ -3,9 +3,10 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import Http404
 from django.forms import inlineformset_factory
+from django.core.exceptions import PermissionDenied
 
 from dogs.forms import DogForm, DogParentForm, DogCreateForm
 from dogs.models import Breed, Dog, DogParent
@@ -54,6 +55,7 @@ class DogsListView(ListView):
         queryset = queryset.filter(is_active=True)
         return queryset
 
+
 class DogsDeactivatedListView(LoginRequiredMixin, ListView):
     model = Dog
     extra_context = {
@@ -80,10 +82,12 @@ class DogCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('dogs:dogs_list')
 
     def form_valid(self, form):
-        self.dog_object = form.save()
-        self.dog_object.owner = self.request.user
-        self.dog_object.save()
-        send_dog_creation(self.request.user.email, self.dog_object)
+        if self.request.user.role != UserRoles.USER:
+            raise PermissionDenied
+        dog_object = form.save()
+        dog_object.owner = self.request.user
+        dog_object.save()
+        send_dog_creation(self.request.user.email, dog_object)
         return super().form_valid(form)
 
 
@@ -93,8 +97,8 @@ class DogDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data()
-        dog_obj = self.get_object()
-        context_data['title'] = f'Подробная информация\n{dog_obj}'
+        dog_object = self.get_object()
+        context_data['title'] = f'Подробная информация\n{dog_object}'
         return context_data
 
 
@@ -118,35 +122,39 @@ class DogUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         context_data = self.get_context_data()
         formset = context_data['formset']
-        self.object = form.save()
+        dog_object = form.save()
         if formset.is_valid():
-            formset.instance = self.object
+            formset.instance = dog_object
             formset.save()
         return super().form_valid(form)
 
     def get_object(self, queryset=None):
-        self.object = super().get_object(queryset)
+        dog_object = super().get_object(queryset)
         # Может редактировать как владелец, так и администрация сайта
         # if self.object.owner != self.request.user and not self.request.user.is_staff:
+
         # Может редактировать только владелец
-        if self.object.owner != self.request.user and not self.request.user.is_staff:
-            raise Http404
-        return self.object
+        if dog_object.owner != self.request.user:
+            raise PermissionDenied()
+        return dog_object
 
     def get_success_url(self):
         return reverse('dogs:dog_detail', args=[self.kwargs.get('pk')])
 
 
-class DogDeleteView(LoginRequiredMixin, DeleteView):
+class DogDeleteView(PermissionRequiredMixin, DeleteView):
     model = Dog
     template_name = 'dogs/delete.html'
     success_url = reverse_lazy('dogs:dogs_list')
+    permission_required = 'dogs.delete_dog'
+    permission_denied_message = 'У вас нет необходимых прав для этого действия'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data()
-        dog_obj = self.get_object()
-        context_data['title'] = f'Удалить\n{dog_obj}'
+        dog_object = self.get_object()
+        context_data['title'] = f'Удалить\n{dog_object}'
         return context_data
+
 
 def dog_toggle_activity(request, pk):
     dog_object = get_object_or_404(Dog, pk=pk)
