@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # установленные приложения
+    'redis',
     # мои приложения
     'users',
     'dogs',
@@ -159,6 +162,16 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = "dogs:index"
 # LOGOUT_REDIRECT_URL = "dogs:index"
 LOGIN_URL = 'users:user_login'
+CACHE_ENABLED = os.getenv("CACHE_ENABLED") == 'True'
+if CACHE_ENABLED:
+    CACHES = {
+        "default":
+            {
+                'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+                'LOCATION': os.getenv("CACHE_LOCATION"),
+            }
+    }
+
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.yandex.com'
