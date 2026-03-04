@@ -8,7 +8,7 @@ from django.http import Http404
 from django.forms import inlineformset_factory
 from django.core.exceptions import PermissionDenied
 
-from dogs.forms import DogForm, DogParentForm, DogCreateForm
+from dogs.forms import DogForm, DogParentForm, DogCreateForm, DogAdminForm
 from dogs.services import send_views_mail
 from dogs.models import Breed, Dog, DogParent
 from users.services import send_dog_creation
@@ -113,8 +113,17 @@ class DogDetailView(DetailView):
 
 class DogUpdateView(LoginRequiredMixin, UpdateView):
     model = Dog
-    form_class = DogForm
     template_name = 'dogs/create_update.html'
+
+    def get_form_class(self):
+        dog_forms = {
+            'admin': DogAdminForm,
+            'moderator': DogForm,
+            'user': DogForm,
+        }
+        user_role = self.request.user.role
+        dog_form_class = dog_forms[user_role]
+        return dog_form_class
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data()
