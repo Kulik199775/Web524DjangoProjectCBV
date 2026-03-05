@@ -33,6 +33,8 @@ class BreedListView(ListView):
     paginate_by = 3
 
 
+
+
 class DogBreedsListView(ListView):
     model = Dog
     template_name = 'dogs/dogs.html'
@@ -46,6 +48,19 @@ class DogBreedsListView(ListView):
         queryset = queryset.filter(is_active=True)
         return queryset
 
+class BreedSearchListView(ListView):
+    model = Breed
+    template_name = 'dogs/breeds.html'
+    extra_context = {
+        'title': 'Результат поискового запроса'
+    }
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Breed.objects.filter(
+            Q(name__icontains=query)
+        )
+        return object_list
 
 class DogsListView(ListView):
     model = Dog
@@ -80,13 +95,17 @@ class DogsDeactivatedListView(LoginRequiredMixin, ListView):
 
 class DogSearchListView(ListView):
     model = Dog
-    template_name = 'dogs/dogs_search_results.html'
-    queryset = Dog.objects.filter(name__icontains='м')
+    template_name = 'dogs/dogs.html'
+    context_object_name = 'dogs'
 
     def get_queryset(self):
-        return Dog.objects.filter(
-            Q(name__icontains='м')
-        )
+        query = self.request.GET.get('q')
+        if query:
+            return Dog.objects.filter(
+                name__icontains=query,
+                is_active=True
+            )
+        return Dog.objects.filter(is_active=True)
 
 
 class DogCreateView(LoginRequiredMixin, CreateView):
