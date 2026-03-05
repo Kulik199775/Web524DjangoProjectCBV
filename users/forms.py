@@ -38,7 +38,7 @@ class UserLoginForm(StyleFormMixin, AuthenticationForm):
 class UserUpdateForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'phone', 'telegram', 'avatar')
+        fields = ('email', 'first_name', 'last_name', 'phone', 'telegram', 'max_messenger', 'avatar')
 
 class UserChangePasswordForm(StyleFormMixin, PasswordChangeForm):
     def clean_new_password2(self):

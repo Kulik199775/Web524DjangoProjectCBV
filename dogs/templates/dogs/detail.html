@@ -12,8 +12,9 @@
             <span class="text-muted">Дата рождения: {{ object.birth_date|default:"-" }}</span><br>
             <span class="text-muted">Эл.почта хозяина: {{ object.owner.email|default:"Без хозяина" }}</span><br>
             <span class="text-muted">Имя хозяина: {{ object.owner.first_name|default:"Не указано" }}</span><br>
-            <span class="text-muted">Телефон: {{ object.owner.phone|default:"Не указано" }}</span><br>
-            <span class="text-muted">Телеграм: {{ object.owner.telegram|default:"Не указано" }}</span><br>
+            <span class="text-muted">Телефон хозяина: {{ object.owner.phone|default:"Не указано" }}</span><br>
+            <span class="text-muted">Телеграм хозяина: {{ object.owner.telegram|default:"Не указано" }}</span><br>
+            <span class="text-muted">MAX хозяина: {{ object.owner.max_messenger|default:"Не указано" }}</span><br>
             <span class="text-muted">Просмотры: {{ object.views }}</span><br>
         </div>
         <div class="card-footer">
