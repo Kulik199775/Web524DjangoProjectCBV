@@ -1,14 +1,15 @@
 import random
 import string
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.shortcuts import render, reverse, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, PasswordChangeView, LogoutView
-from django.views.generic import CreateView, UpdateView, DetailView
+from django.views.generic import CreateView, UpdateView, DetailView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
 from users.models import User
@@ -35,7 +36,7 @@ class UserLoginView(LoginView):
         'title': 'Авторизация'
     }
 
-class UserProfileView(DetailView):
+class UserProfileView(LoginRequiredMixin, DetailView):
     model = User
     form_class = UserForm
     template_name = 'users/user_profile_read_only.html'
@@ -65,7 +66,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         context_data['title'] = f'Изменить профиль: {user_obj}'
         return context_data
 
-class UserPasswordChangeView(PasswordChangeView):
+class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     form_class = UserChangePasswordForm
     template_name = 'users/user_change_password.html'
     success_url = reverse_lazy('users:user_profile')
@@ -78,6 +79,19 @@ class UserLogoutView(LogoutView):
     extra_context = {
         'title': "Выход из аккаунта"
     }
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = User
+    extra_context = {
+        'title': 'Все наши пользователи'
+    }
+    template_name = 'users/users.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(is_active=True)
+        return queryset
+
 
 @login_required(login_url='users:user_login')
 def user_generate_new_password_view(request):

@@ -30,6 +30,7 @@
                         <li><a href="{% url 'dogs:dogs_list' %}" class="text-white">Собаки</a></li>
                         <li><a href="{% url 'dogs:dog_create' %}" class="text-white">Добавить собаку</a></li>
                         {% if user.is_authenticated %}
+                            <li><a href="{% url 'users:users_list' %}" class="text-white">Все пользователи</a></li>
                             <li><a href="{% url 'users:user_profile' %}" class="text-white">Профиль</a></li>
                              <span class="text-white">{{ user.email }}</span>
                             <form method="post" action="{% url 'users:user_logout' %}">
