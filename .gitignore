@@ -189,5 +189,5 @@ fabric.properties
 /dogs/migrations/
 reviews/migrations/*
 !reviews/migrations/
-!reviews/migrations/.gitkeep
+!reviews/migrations/__init__.py
 dump.rbd
