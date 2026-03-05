@@ -187,7 +187,7 @@ fabric.properties
 
 /users/migrations/
 /dogs/migrations/
-reviews/*
-!reviews/
-!reviews/.gitkeep
+reviews/migrations/*
+!reviews/migrations/
+!reviews/migrations/.gitkeep
 dump.rbd
