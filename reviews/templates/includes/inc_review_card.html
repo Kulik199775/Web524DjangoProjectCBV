@@ -1,0 +1,17 @@
+{% load my_tags %}
+{% load user_tags %}
+{% block content %}
+<div class="col-5">
+    <div class="card mb-0 box-shadow">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-center">{{ object.dog }}</h4>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title pricing-card-title">{{ object|truncatechars:30 }}</h5>
+            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                <li>Создан: {{ object.created }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
