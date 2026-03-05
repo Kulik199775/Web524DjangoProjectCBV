@@ -8,6 +8,8 @@
         {% include 'dogs/includes/inc_dog_card.html' with object=object %}
         {% endfor %}
     </div>
+    {% include 'dogs/includes/inc_pagination.html' %}
+    <a href="{% url 'dogs:dog_create' %}" class="btn btn-outline-primary m-2 float-left">Добавить собаку</a>
     <a href="{% url 'dogs:dogs_list_deactivated' %}" class="btn btn-outline-secondary m-2 float-right">Неактивные собаки</a>
     <a href="{% url 'dogs:dogs_list' %}" class="btn btn-outline-success m-2 float-right">Активные собаки</a>
 </div>

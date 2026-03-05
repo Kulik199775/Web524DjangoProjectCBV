@@ -17,6 +17,7 @@ class ReviewListView(ListView):
         'title': 'Наши отзывы',
     }
     template_name = 'reviews/reviews.html'
+    paginate_by = 3
 
     def get_queryset(self):
         queryset = super().get_queryset()
