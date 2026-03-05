@@ -187,4 +187,5 @@ fabric.properties
 
 /users/migrations/
 /dogs/migrations/
+/reviews/migrations/
 dump.rbd
