@@ -17,6 +17,7 @@ def get_breeds_cache():
 
     return breed_list
 
+
 def send_views_mail(dog_object, owner_email, views_count):
     send_mail(
         subject=f'{views_count} просмотров {dog_object}',

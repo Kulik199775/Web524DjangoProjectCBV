@@ -5,12 +5,13 @@ from django.urls import reverse
 from users.models import NULLABLE
 from dogs.models import Dog
 
+
 class Review(models.Model):
     title = models.CharField(max_length=150, verbose_name='Заголовок')
     slug = models.SlugField(max_length=25, unique=True, db_index=True, verbose_name='URL')
     content = models.TextField(verbose_name='Содержимое')
     created = models.DateTimeField(verbose_name='Создан', auto_now_add=True)
-    sign_of_review = models.BooleanField(default=True, verbose_name='Активность') # надо изменить на False
+    sign_of_review = models.BooleanField(default=True, verbose_name='Активность')  # надо изменить на False
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Автор')
     dog = models.ForeignKey(Dog, on_delete=models.CASCADE, related_name='dogs', verbose_name='Собака')
 

@@ -15,4 +15,5 @@ urlpatterns = [
     path('review/update/<slug:slug>/', ReviewUpdateView.as_view(), name='review_update'),
     path('review/delete/<slug:slug>/', ReviewDeleteView.as_view(), name='review_delete'),
     path('review/toggle/<slug:slug>/', review_toggle_activity, name='review_toggle'),
+
 ]

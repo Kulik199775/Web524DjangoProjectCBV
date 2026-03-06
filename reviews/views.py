@@ -3,7 +3,6 @@ from django.shortcuts import reverse, get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
-from redis.commands.search.querystring import querystring
 
 from reviews.models import Review
 from reviews.forms import ReviewForm

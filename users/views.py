@@ -2,11 +2,9 @@ import random
 import string
 
 
-from django.shortcuts import render, reverse, redirect
-from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.shortcuts import reverse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.contrib.auth.views import LoginView, PasswordChangeView, LogoutView
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,6 +14,7 @@ from users.models import User
 from users.forms import UserRegisterForm, UserLoginForm, UserUpdateForm, UserChangePasswordForm, UserForm
 from users.services import send_register_email, send_new_password
 
+
 class UserRegisterView(CreateView):
     model = User
     form_class = UserRegisterForm
@@ -24,10 +23,12 @@ class UserRegisterView(CreateView):
     extra_context = {
         'title': 'Создать аккаунт',
     }
+
     def form_valid(self, form):
         self.object = form.save()
         send_register_email(self.object.email)
         return super().form_valid(form)
+
 
 class UserLoginView(LoginView):
     template_name = 'users/user_login.html'
@@ -36,12 +37,13 @@ class UserLoginView(LoginView):
         'title': 'Авторизация'
     }
 
+
 class UserProfileView(LoginRequiredMixin, DetailView):
     model = User
     form_class = UserForm
     template_name = 'users/user_profile_read_only.html'
 
-    def get_object(self, queryset = None):
+    def get_object(self, queryset=None):
         return self.request.user
 
     def get_context_data(self, **kwargs):
@@ -57,7 +59,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'users/user_register_update.html'
     success_url = reverse_lazy('users:user_profile')
 
-    def get_object(self, queryset = None):
+    def get_object(self, queryset=None):
         return self.request.user
 
     def get_context_data(self, **kwargs):
@@ -65,6 +67,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         user_obj = self.get_object()
         context_data['title'] = f'Изменить профиль: {user_obj}'
         return context_data
+
 
 class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     form_class = UserChangePasswordForm
@@ -74,11 +77,13 @@ class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
         'title': 'Изменить пароль'
     }
 
+
 class UserLogoutView(LogoutView):
     template_name = 'users/user_logout.html'
     extra_context = {
         'title': "Выход из аккаунта"
     }
+
 
 class UserListView(LoginRequiredMixin, ListView):
     model = User
@@ -101,6 +106,7 @@ def user_generate_new_password_view(request):
     request.user.save()
     send_new_password(request.user.email, new_password)
     return HttpResponseRedirect(reverse('dogs:index'))
+
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User

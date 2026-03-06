@@ -3,6 +3,7 @@ from django.conf import settings
 
 from users.models import NULLABLE
 
+
 class Breed(models.Model):
     name = models.CharField(max_length=100, verbose_name='Порода')
     description = models.CharField(max_length=1000, verbose_name='Описание', **NULLABLE)
@@ -13,6 +14,7 @@ class Breed(models.Model):
     class Meta:
         verbose_name = 'breed'
         verbose_name_plural = 'breeds'
+
 
 class Dog(models.Model):
     name = models.CharField(max_length=250, verbose_name='Кличка')
@@ -34,6 +36,7 @@ class Dog(models.Model):
     class Meta:
         verbose_name = 'dog'
         verbose_name_plural = 'dogs'
+
 
 class DogParent(models.Model):
     dog = models.ForeignKey(Dog, on_delete=models.CASCADE)

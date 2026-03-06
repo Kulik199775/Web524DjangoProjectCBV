@@ -13,10 +13,12 @@ class StyleFormMixin:
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
 
-class UserForm(StyleFormMixin,forms.ModelForm):
+
+class UserForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name', 'phone', 'avatar')
+
 
 class UserRegisterForm(StyleFormMixin, UserCreationForm):
 
@@ -31,6 +33,7 @@ class UserRegisterForm(StyleFormMixin, UserCreationForm):
             raise forms.ValidationError('Пароли не совпадают!')
         return cleaned_data['password2']
 
+
 class UserLoginForm(StyleFormMixin, AuthenticationForm):
     pass
 
@@ -39,6 +42,7 @@ class UserUpdateForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name', 'phone', 'telegram', 'max_messenger', 'avatar')
+
 
 class UserChangePasswordForm(StyleFormMixin, PasswordChangeForm):
     def clean_new_password2(self):
@@ -52,5 +56,3 @@ class UserChangePasswordForm(StyleFormMixin, PasswordChangeForm):
             )
         password_validation.validate_password(password2, self.user)
         return password2
-
-

@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 NULLABLE = {'blank': True, 'null': True}
 
+
 class UserRoles(models.TextChoices):
     ADMIN = 'admin', _('admin')
     MODERATOR = 'moderator', _('moderator')
@@ -32,6 +33,3 @@ class User(AbstractUser):
         verbose_name = 'User'
         verbose_name_plural = 'Users'
         ordering = ['id']
-
-
-
