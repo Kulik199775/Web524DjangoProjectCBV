@@ -26,6 +26,9 @@
                     <h4 class="text-white">Меню</h4>
                     <ul class="list-unstyled">
                     {% include 'dogs/includes/inc_search_fields.html' %}
+                    {% if user.role == 'admin' %}
+                        <a class="p-2 btn btn-success" href="/admin/">Админка</a>
+                    {% endif %}
                         <li><a href="{% url 'dogs:index' %}" class="text-white">Главная</a></li>
                         <li><a href="{% url 'dogs:breeds' %}" class="text-white">Породы</a></li>
                         <li><a href="{% url 'dogs:dogs_list' %}" class="text-white">Собаки</a></li>
@@ -56,7 +59,11 @@
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
-                <strong>Питомник</strong>
+                <strong>Питомник
+                    {% if user.is_authenticated %}
+                        {{ user.email }}
+                    {% endif %}
+                </strong>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
